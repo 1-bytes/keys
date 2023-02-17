@@ -1,0 +1,77 @@
+name: rabbitstream_e5_1
+
+on:
+  repository_dispatch:
+    types: [ rabbitstream_e5_1 ]
+  workflow_dispatch:
+  push:
+    branches:
+      - rabbitstream_e5_1
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 签出所有所有分支和标签的所有历史记录
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # 删除 workflow 历史记录
+      - name: Delete Workflow History
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 0
+
+      # 初始化 Git
+      - name: Setup Git
+        run: |
+          git config --global user.email "admin@tcp.so"
+          git config --global user.name "Git Bot"
+          git config --global credential.helper store
+          echo "https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
+          git checkout rabbitstream_e5_1
+        shell: bash
+
+      # 部署 node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      # 下载 Node.js 脚本文件
+      - name: Download Script
+        run: curl -o key.js ${{ secrets.SCRIPT_RABBITSTREAM_E4_KEY2_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
+
+      # 运行 Node.js 脚本文件
+      - name: Run Script
+        run: node ./key.js
+
+      # 执行清理任务
+      - name: Cleanup
+        run: rm -rf ./key.js
+
+      # 差异化比对
+      - name: Check Diff
+        id: verify_diff
+        run: git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      # 比对存在差异 提交
+      - name: Commit Changes
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: git add -A && git commit -m "$(curl -s https://whatthecommit.com/index.txt)" && git push
+
+      # 比对存在差异 清理历史记录
+      - name: Purge Commit History
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: |
+          git checkout --orphan latest_branch
+          git add -A && git commit -am "$(curl -s https://whatthecommit.com/index.txt)"
+          git branch -D rabbitstream_e5_1 && git branch -m rabbitstream_e5_1
+          git push -f origin rabbitstream_e5_1

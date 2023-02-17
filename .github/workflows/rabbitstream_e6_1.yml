@@ -1,12 +1,12 @@
-name: rabbitstream
+name: rabbitstream_e6_1
 
 on:
   repository_dispatch:
-    types: [ rabbitstream ]
+    types: [ rabbitstream_e6_1 ]
   workflow_dispatch:
   push:
     branches:
-      - rabbitstream
+      - rabbitstream_e6_1
   schedule:
     - cron: '*/5 * * * *'
 
@@ -36,7 +36,7 @@ jobs:
           git config --global user.name "Git Bot"
           git config --global credential.helper store
           echo "https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
-          git checkout rabbitstream
+          git checkout rabbitstream_e6_1
         shell: bash
 
       # 部署 node.js 环境
@@ -47,7 +47,7 @@ jobs:
 
       # 下载 Node.js 脚本文件
       - name: Download Script
-        run: curl -o key.js ${{ secrets.SCRIPT_E4_KEY1_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
+        run: curl -o key.js ${{ secrets.SCRIPT_RABBITSTREAM_E4_KEY2_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
 
       # 运行 Node.js 脚本文件
       - name: Run Script
@@ -73,5 +73,5 @@ jobs:
         run: |
           git checkout --orphan latest_branch
           git add -A && git commit -am "$(curl -s https://whatthecommit.com/index.txt)"
-          git branch -D rabbitstream && git branch -m rabbitstream
-          git push -f origin rabbitstream
+          git branch -D rabbitstream_e6_1 && git branch -m rabbitstream_e6_1
+          git push -f origin rabbitstream_e6_1
