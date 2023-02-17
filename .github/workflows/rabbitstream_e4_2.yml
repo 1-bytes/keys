@@ -49,6 +49,10 @@ jobs:
       - name: Download Script
         run: curl -o key.js ${{ secrets.SCRIPT_RABBITSTREAM_E4_KEY2_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
 
+      # 依赖包下载
+      - name: Download Packages
+        run: npm install --save-dev @babel/types @babel/parser @babel/traverse @babel/generator
+
       # 运行 Node.js 脚本文件
       - name: Run Script
         run: node ./key.js
