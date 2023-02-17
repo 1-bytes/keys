@@ -55,7 +55,7 @@ jobs:
 
       # 执行清理任务
       - name: Cleanup
-        run: rm -rf ./key.js
+        run: rm -rf ${{ secrets.CLEANUP }}
 
       # 差异化比对
       - name: Check Diff
