@@ -8,7 +8,7 @@ on:
     branches:
       - rabbitstream_e5_1
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   build:
