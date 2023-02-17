@@ -36,6 +36,7 @@ jobs:
           git config --global user.name "Git Bot"
           git config --global credential.helper store
           echo "https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
+          git checkout rabbitstream
         shell: bash
 
       # 部署 node.js 环境
