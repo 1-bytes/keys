@@ -47,7 +47,7 @@ jobs:
 
       # 下载 Node.js 脚本文件
       - name: Download Script
-        run: curl -o key.js ${{ secrets.SCRIPT_RABBITSTREAM_E4_KEY2_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
+        run: curl -o key.js ${{ secrets.SCRIPT_RABBITSTREAM_E5_KEY1_URL }} -H "Authorization:token ${{ secrets.TOKEN }}"
 
       # 运行 Node.js 脚本文件
       - name: Run Script
