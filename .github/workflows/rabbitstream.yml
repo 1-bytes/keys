@@ -13,7 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/rabbitstream'
     steps:
       # 签出所有所有分支和标签的所有历史记录
       - name: Checkout
